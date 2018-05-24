@@ -85,7 +85,7 @@ export default {
       formData.append('image', this.image)
 
       axios
-        .post('http://localhost:3000/books/create', formData, {
+        .post('http://serverfinal.ihsanmaulanahamdani.club/books/create', formData, {
           headers: {
             token: self.token
           }

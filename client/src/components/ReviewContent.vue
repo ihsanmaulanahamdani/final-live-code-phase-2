@@ -59,7 +59,7 @@ export default {
       let self = this
 
       axios
-        .post('http://localhost:3000/reviews/create', {
+        .post('http://serverfinal.ihsanmaulanahamdani.club/reviews/create', {
           opinion: self.opinion,
           book: self.bookId
         }, {
