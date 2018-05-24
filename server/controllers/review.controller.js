@@ -1,30 +1,28 @@
 const mongoose  = require('mongoose')
 const secretKey = process.env.SECRETKEY_JWT
 const jwt       = require('jsonwebtoken')
-const Book = require('../models/book.model')
+const Review    = require('../models/review.model')
 
 module.exports = {
-  addBook: (req, res) => {
-    let { title, author, publisher, image } = req.body
+  addReview: (req, res) => {
+    let { opinion, book } = req.body
     let { token } = req.headers
 
     jwt.verify(token, secretKey, (err, decoded) => {
-      let newBook = new Book({
-        title,
+      let newReview = new Review({
+        opinion,
         author: decoded.id,
-        publisher,
-        image: req.file.cloudStoragePublicUrl,
-        reviews: []
+        book
       })
 
-      newBook
+      newReview
         .save()
-        .then(book => {
+        .then(review => {
           res
             .status(201)
             .json({
-              message: 'Add book success',
-              book
+              message: 'Add review success',
+              review
             })
         })
         .catch(({ errors }) => {
@@ -37,17 +35,17 @@ module.exports = {
         })
     })
   },
-  getAllBook: (req, res) => {
-    Book
+  getAllReview: (req, res) => {
+    Review
       .find({})
-      .populate('author')
+      .populate('book')
       .exec()
-      .then(books => {
+      .then(reviews => {
         res
           .status(200)
           .json({
-            message: 'Get all books success!',
-            books
+            message: 'Get all reviews success!',
+            reviews
           })
       })
       .then(({ errors }) => {
@@ -59,21 +57,21 @@ module.exports = {
             })
       })
   },
-  deleteBook: (req, res) => {
+  deleteReview: (req, res) => {
     let { id } = req.params
     let { token } = req.headers
 
     jwt.verify(token, secretKey, (err, decoded) => {
-      Book
+      Review
         .remove({
-          _id: id
+          author: decoded.id
         })
-        .then(deletedBook => {
+        .then(deletedReview => {
           res
             .status(200)
             .json({
-              message: 'Delete book success!',
-              deletedBook
+              message: 'Delete review success!',
+              deletedReview
             })
         })
         .catch(({ errors }) => {

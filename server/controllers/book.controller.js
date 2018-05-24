@@ -1,11 +1,11 @@
 const mongoose  = require('mongoose')
 const secretKey = process.env.SECRETKEY_JWT
 const jwt       = require('jsonwebtoken')
-const Book = require('../models/book.model')
+const Book      = require('../models/book.model')
 
 module.exports = {
   addBook: (req, res) => {
-    let { title, author, publisher, image } = req.body
+    let { title, publisher } = req.body
     let { token } = req.headers
 
     jwt.verify(token, secretKey, (err, decoded) => {
@@ -63,10 +63,12 @@ module.exports = {
     let { id } = req.params
     let { token } = req.headers
 
+    console.log('masuk sini');
+
     jwt.verify(token, secretKey, (err, decoded) => {
       Book
-        .remove({
-          author: decoded.id
+        .findOneAndRemove({
+          _id: id
         })
         .then(deletedBook => {
           res
@@ -76,12 +78,12 @@ module.exports = {
               deletedBook
             })
         })
-        .catch(({ errors }) => {
+        .catch((err) => {
           res
             .status(500)
             .json({
               message: 'Something went wrong!',
-              errors
+              err
             })
         })
     })

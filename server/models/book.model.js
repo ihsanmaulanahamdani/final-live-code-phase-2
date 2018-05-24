@@ -35,7 +35,7 @@ bookSchema.pre('save', function (next) {
     )
 })
 
-bookSchema.pre('remove', function (next) {
+bookSchema.pre('findOneAndRemove', function (next) {
   let book = this
 
   this

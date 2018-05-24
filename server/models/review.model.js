@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema   = mongoose.Schema
 
 let reviewSchema = new Schema({
-  review: String,
+  opinion: String,
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -78,3 +78,7 @@ reviewSchema.pre('remove', function (next) {
     next
   )
 })
+
+let Review = mongoose.model('Review', reviewSchema)
+
+module.exports = Review
