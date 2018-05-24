@@ -27,7 +27,7 @@ module.exports = {
               book
             })
         })
-        .catch(({ errors }) => {
+        .catch(errors => {
           req
             .status(500)
             .json({
@@ -50,13 +50,13 @@ module.exports = {
             books
           })
       })
-      .then(({ errors }) => {
-        req
-            .status(500)
-            .json({
-              message: 'Something went wrong!',
-              errors
-            })
+      .catch(errors => {
+        res
+          .status(500)
+          .json({
+            message: 'Something went wrong!',
+            errors
+          })
       })
   },
   deleteBook: (req, res) => {
@@ -78,12 +78,12 @@ module.exports = {
               deletedBook
             })
         })
-        .catch((err) => {
+        .catch(errors => {
           res
             .status(500)
             .json({
               message: 'Something went wrong!',
-              err
+              errors
             })
         })
     })

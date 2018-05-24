@@ -35,32 +35,6 @@ bookSchema.pre('save', function (next) {
     )
 })
 
-bookSchema.pre('findOneAndRemove', function (next) {
-  let book = this
-
-  this
-    .model('User')
-    .update({
-      _id: book.author
-    }, {
-      $pull: {
-        books: book._id
-      }
-    }, {
-      multi: true
-    },
-    next
-  )
-
-  this
-    .model('Review')
-    .deleteMany({
-      book: book._id
-    },
-    next
-  )
-})
-
 let Book = mongoose.model('Book', bookSchema)
 
 module.exports = Book

@@ -25,7 +25,7 @@ module.exports = {
               review
             })
         })
-        .catch(({ errors }) => {
+        .catch(errors => {
           req
             .status(500)
             .json({
@@ -48,13 +48,13 @@ module.exports = {
             reviews
           })
       })
-      .then(({ errors }) => {
-        req
-            .status(500)
-            .json({
-              message: 'Something went wrong!',
-              errors
-            })
+      .then(errors => {
+        res
+          .status(500)
+          .json({
+            message: 'Something went wrong!',
+            errors
+          })
       })
   },
   deleteReview: (req, res) => {
@@ -63,8 +63,8 @@ module.exports = {
 
     jwt.verify(token, secretKey, (err, decoded) => {
       Review
-        .remove({
-          author: decoded.id
+        .findOneAndRemove({
+          _id: id
         })
         .then(deletedReview => {
           res
@@ -74,7 +74,7 @@ module.exports = {
               deletedReview
             })
         })
-        .catch(({ errors }) => {
+        .catch(errors => {
           res
             .status(500)
             .json({
