@@ -50,17 +50,11 @@ module.exports = {
             .methods
             .compareHash(password, user.password, (err, result) => {
               if (!err && result) {
-                let token = jwt.sign({ id: user._id, name: user.name, email: user.email, role: user.role }, secretKey)
+                let token = jwt.sign({ id: user._id, name: user.name, email: user.email }, secretKey)
 
                 res.status(200).json({
                   message: 'login success',
-                  token,
-                  user: {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role
-                  }
+                  token
                 })
               } else {
                 res.status(400).json({

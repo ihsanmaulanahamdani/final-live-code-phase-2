@@ -8,6 +8,7 @@ let bookSchema = new Schema({
     ref: 'User'
   },
   publisher: String,
+  image: String,
   reviews: [{
     type: Schema.Types.ObjectId,
     ref: 'Review'
